@@ -13,7 +13,7 @@ public class conexion {
     String password="";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
-  
+  //conectar
     public conexion(){
         
     }
