@@ -20,6 +20,7 @@ public class ControladorPendientes {
     conexion db = new conexion();
     notificaciones nt = new notificaciones();
     DefaultTableModel modelo;
+    DefaultTableModel modeloP;
     
     public DefaultTableModel modeloUsuarios(){
         String[] titulo ={"Identidad", "Nombre", "Correo", "Celular"};
@@ -62,6 +63,47 @@ public class ControladorPendientes {
            return null;     
     }
     
+    
+    public DefaultTableModel modeloPendientes(){
+        String[] titulo ={"Examen", "Fecha de ingreso", "Estado"};
+        modeloP = new DefaultTableModel(null, titulo);
+        return modeloP;
+    }
+    
+    
+    public DefaultTableModel tablaPendientes(String parametros){
+        String consulta="SELECT * FROM tclientes WHERE "
+                + " identidad    LIKE '"+parametros+"%'         ||"
+                + " nombre       LIKE '"+parametros+"%'         ||"
+                + " celular      LIKE '"+parametros+"%'         ||"
+                + " correo       LIKE '"+parametros+"%'           " ;
+                PreparedStatement st;
+                            try {
+                                st = db.conectar().prepareStatement(consulta);
+                                ResultSet rs = st.executeQuery();
+
+                                while(rs.next()){
+                                    Object[] clientes = {
+                                        rs.getString("identidad"),
+                                        rs.getString("nombre"),
+                                        rs.getString("correo"),
+                                        rs.getString("celular")
+                                    };
+
+                                    modelo.addRow(clientes);
+
+
+                                }
+                                db.desconectar();
+                                return modelo;
+
+                            } catch (SQLException ex) {
+                                Logger.getLogger(ControladorPendientes.class.getName()).log(Level.SEVERE, null, ex);
+                                
+                            }
+            db.desconectar();
+           return null;     
+    }
     
     
 }

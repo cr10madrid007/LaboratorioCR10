@@ -45,6 +45,6 @@ public class examenes {
     
     @Override
     public String toString() {
-    return examen + " - " + precio;
+    return examen + " | L" + precio;
     }
 }
