@@ -4,6 +4,7 @@
  */
 package internalFrame;
 
+import clases.examenes;
 import clases.notificaciones;
 import controller.ControladorPendientes;
 import controller.conexion;
@@ -148,6 +149,11 @@ notificaciones nt = new notificaciones();
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Guardar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(5, 116, 171));
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -213,6 +219,12 @@ notificaciones nt = new notificaciones();
         
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        
+        String id = cbExamenes.getItemAt(cbExamenes.getSelectedIndex()).getIdexamen();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     public void comboExamenes(String parametros){
         String consulta="SELECT * FROM texamenes WHERE "
                 + " examen    LIKE '"+parametros+"%'         " ;
@@ -223,13 +235,16 @@ notificaciones nt = new notificaciones();
                                 ResultSet rs = st.executeQuery();
 
                                 while(rs.next()){
-                                    cbExamenes.addItem(rs.getString("examen")+" | "+ rs.getString("precio"));
+                                 //   cbExamenes.addItem(  rs.getString("examen")+" | "+ rs.getString("precio"));
+                                    cbExamenes.addItem(
+                                           new examenes(rs.getString("idexamenes"),
+                                                 rs.getString("examen"),
+                                                 Double.valueOf(rs.getString("precio"))
                                     
-
+                                            )
+                                    );
                                 }
                                 db.desconectar();
-                                
-
                             } catch (SQLException ex) {
                                 Logger.getLogger(ControladorPendientes.class.getName()).log(Level.SEVERE, null, ex);
                                 
@@ -241,7 +256,7 @@ notificaciones nt = new notificaciones();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JComboBox<String> cbExamenes;
+    private javax.swing.JComboBox<examenes> cbExamenes;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
